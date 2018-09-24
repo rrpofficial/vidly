@@ -34,9 +34,7 @@ const movieSchema = new mongoose.Schema({
         type : genreSchema,
         required : true
     }
-
 });
-
 
 function validateMovie(movie){
     const schema = {
