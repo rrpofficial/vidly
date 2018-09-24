@@ -11,6 +11,7 @@ mongoose.connect('mongodb://localhost/vidly', {useNewUrlParser : true})
 .then(()=>{ console.log('DB connection established')})
 .catch((err)=>{ console.log('Unable to connect to database', err)});
 
+const Users = require('./routes/users');
 const Rentals = require('./routes/rentals');
 const Movies = require('./routes/movies');
 const Customers = require('./routes/customers');
@@ -19,6 +20,7 @@ const Home = require('./routes/home');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //************ Routes */
+app.use('/api/users', Users);
 app.use('/api/rentals', Rentals);
 app.use('/api/movies', Movies);
 app.use('/api/customers', Customers);
