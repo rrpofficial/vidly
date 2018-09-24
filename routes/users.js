@@ -6,7 +6,7 @@ const { User, validate} = require('../models/user.model');
 
 
 router.get('/', async(req, res)=>{
-    console.log('inside the genres request');
+    console.log('inside the users request');
     const genre = await User.find().sort({'name' : 1});
     res.send(genre);  
 });
@@ -15,7 +15,7 @@ router.get('/:id', async(req, res)=>{
     console.log('inside the genres request');
     try{
         const user = await User.findById(req.params.id);
-        if(!user) res.status(404).send({message: 'The genre with the requested ID is not found'});
+        if(!user) res.status(404).send({message: 'The user with this ID does not exist'});
         res.send(user);  
     }catch(ex){
         console.log(ex.message);

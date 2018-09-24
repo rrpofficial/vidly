@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { Movie, validate } = require('../models/movie.model');
-const  { Genre } = require('../models/genre.model');
+const  { User } = require('../models/genre.model');
 
 router.get('/', async (req, res)=>{
     const movies = await Movie
@@ -28,7 +28,7 @@ router.post('/', async (req, res)=>{
     const result = validate(req.body);
     if(result.error) return res.status(400).send({success: false, message: result.error.details[0].message});
 
-    const genre = await Genre.findById(req.body.genreId);
+    const genre = await User.findById(req.body.genreId);
     if(!genre) return res.status(400).send({success: false, message: 'Invalid Genre'});
     
     try{
