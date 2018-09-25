@@ -1,10 +1,10 @@
 const express = require('express');
+const passport = require('passport');
 const router = express.Router();
-const Joi = require('joi');
+// const Joi = require('joi');
 const { User, validate} = require('../models/genre.model');
 
-
-router.get('/', async(req, res)=>{
+router.get('/', passport.authenticate('jwt', {session: false}), async(req, res)=>{
     console.log('inside the genres request');
     const genre = await User.find().sort({'name' : 1});
     res.send(genre);  
