@@ -4,7 +4,7 @@ const router = express.Router();
 // const Joi = require('joi');
 const { User, validate} = require('../models/genre.model');
 
-router.get('/', passport.authenticate('jwt', {session: false}), async(req, res)=>{
+router.get('/', async(req, res)=>{
     console.log('inside the genres request');
     const genre = await User.find().sort({'name' : 1});
     res.send(genre);  
@@ -22,7 +22,7 @@ router.get('/:id', async(req, res)=>{
     
 });
 
-router.post('/', async(req, res)=>{
+router.post('/', passport.authenticate('jwt', {session: false}), async(req, res)=>{
         const result = validate(req.body);
         // console.log('validatation errors',result);
         if(result.error){
@@ -43,7 +43,7 @@ router.post('/', async(req, res)=>{
     
 });
 
-router.put('/:id', async(req, res)=>{
+router.put('/:id', passport.authenticate('jwt', {session: false}), async(req, res)=>{
     const result = validate(req.body);
         // console.log('validatation errors',result);
     if(result.error) return res.status(400).send({success: false, message: result.error.details[0].message});
@@ -62,7 +62,7 @@ router.put('/:id', async(req, res)=>{
     
 });
 
-router.delete('/:id', async(req, res)=>{
+router.delete('/:id', passport.authenticate('jwt', {session: false}), async(req, res)=>{
     console.log('inside the genres Delete request',req.params.id);
     const id = req.params.id;
     try{

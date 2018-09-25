@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Fawn = require('fawn');
-
+const passport = require('passport');
 
 const { Rental, validate } = require('../models/rental.model');
 const { Customer } = require('../models/customer.model');
@@ -10,7 +10,7 @@ const { Movie } = require('../models/movie.model');
 
 Fawn.init(mongoose);
 
-router.get('/', async (req, res)=> {
+router.get('/', passport.authenticate('jwt', {session: false}), async (req, res)=> {
     
     try {
         const rentals = await Rental
@@ -23,7 +23,7 @@ router.get('/', async (req, res)=> {
     }
 });
 
-router.get('/:id', async (req, res)=> {
+router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, res)=> {
     try {
         const rentals = await Rental.findById(req.params.id);
         if(!rentals) return res.status(404).send({success : false, message : 'No rental found with this ID'});
@@ -33,7 +33,7 @@ router.get('/:id', async (req, res)=> {
     }
 });
 
-router.post('/', async (req, res)=> {
+router.post('/', passport.authenticate('jwt', {session: false}), async (req, res)=> {
     const result = validate(req.body);
     if(result.error) return res.status(400).send({success : false, message : 'Invalid Request'});
     try {
@@ -81,7 +81,7 @@ router.post('/', async (req, res)=> {
     }
 });
 
-router.put('/:id', async (req, res)=> {
+router.put('/:id', passport.authenticate('jwt', {session: false}), async (req, res)=> {
 
 });
 

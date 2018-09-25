@@ -16,28 +16,14 @@ mongoose.connect('mongodb://localhost/vidly', {useNewUrlParser : true})
 .then(()=>{ console.log('DB connection established')})
 .catch((err)=>{ console.log('Unable to connect to database', err)});
 
-const Auth = require('./routes/auth');
-const Users = require('./routes/users');
-const Rentals = require('./routes/rentals');
-const Movies = require('./routes/movies');
-const Customers = require('./routes/customers');
-const Genres = require('./routes/genres');
-const Home = require('./routes/home');
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 require('./middleware/passport')(passport);
+require('./routes/routes')(app);
 
-//************ Routes */
-app.use('/api/auth', Auth);
-app.use('/api/users', Users);
-app.use('/api/rentals', Rentals);
-app.use('/api/movies', Movies);
-app.use('/api/customers', Customers);
-app.use('/api/genres', Genres);
-app.use('/', Home);
+
 // console.log('secret key is ', config.get('jwtPrivateKey'));
 // Genre.create(new Genre({
 //     name : 'Romance'

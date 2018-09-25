@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const passport = require('passport');
 const { Movie, validate } = require('../models/movie.model');
 const  { User } = require('../models/genre.model');
 
@@ -24,7 +24,7 @@ router.get('/:id', async (req, res)=>{
    }
 });
 
-router.post('/', async (req, res)=>{
+router.post('/', passport.authenticate('jwt', {session: false}), async (req, res)=>{
     const result = validate(req.body);
     if(result.error) return res.status(400).send({success: false, message: result.error.details[0].message});
 
@@ -51,7 +51,7 @@ router.post('/', async (req, res)=>{
     }
 });
 
-router.put('/:id', async (req, res)=>{
+router.put('/:id', passport.authenticate('jwt', {session: false}), async (req, res)=>{
     // console.log('Inside Movie PUT requst');
     const result = validate(req.body);
     if(result.error) return res.status(400).send({success: false, message: result.error.details[0].message});
@@ -66,7 +66,7 @@ router.put('/:id', async (req, res)=>{
     }
 });
 
-router.delete('/:id', async (req, res)=>{
+router.delete('/:id', passport.authenticate('jwt', {session: false}), async (req, res)=>{
     // const result = validate(req.body);
     // if(result.error) return res.status(400).send({success: false, message: result.error.details[0].message});
     try{

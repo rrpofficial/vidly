@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
 
 const {Customer, validate} = require('../models/customer.model');
 
@@ -8,7 +9,7 @@ router.get('/', async (req, res)=>{
     res.send(customers);
 });
 
-router.post('/', async (req, res)=>{
+router.post('/', passport.authenticate('jwt', {session: false}), async (req, res)=>{
     
     const vResult = validate(req.body);
     if (vResult.error) return res.status(404).send({status : false, message : vResult.error.details[0].message});
@@ -22,7 +23,7 @@ router.post('/', async (req, res)=>{
     
 });
 
-router.put('/:id', async (req, res)=>{
+router.put('/:id', passport.authenticate('jwt', {session: false}), async (req, res)=>{
     const vResult = validate(req.body);
     if(vResult.error) return res.status(404).send({status : false, message : vResult.error.details[0].message});
     console.log('request data is ', req.body);
@@ -37,7 +38,7 @@ router.put('/:id', async (req, res)=>{
 });
 
 
-router.delete('/:id', async (req, res)=>{
+router.delete('/:id', passport.authenticate('jwt', {session: false}), async (req, res)=>{
     // const vResult = validateCustomer(req.body);
     // if(vResult.error) return res.status(404).send({status : false, message : vResult.error.details[0].message});
     // console.log('request data is ', req.body);
